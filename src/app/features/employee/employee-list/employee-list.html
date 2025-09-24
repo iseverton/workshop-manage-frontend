@@ -22,7 +22,7 @@
       <h2>Colaboradores</h2>
     </div>
     <div id="employees-list" class="card-content">
-      @for (user of employee_list$; track $index) {
+      @for (user of (employee_list$ | async); track user) {
       <app-employee-item [employee]="user" />
       }
     </div>
