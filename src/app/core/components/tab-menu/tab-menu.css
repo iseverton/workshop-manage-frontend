@@ -24,7 +24,7 @@
   background-color: var(--background);
 }
 
-.tab-button.active {
+.active-link {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   color: var(--white);
   transform: scale(1.05);
