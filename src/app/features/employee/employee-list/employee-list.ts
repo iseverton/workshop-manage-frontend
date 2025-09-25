@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { EmployeeItem } from '../employee-item/employee-item';
-import { HttpClient } from '@angular/common/http';
 import { AsyncPipe } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { Employee } from '../employee';
+import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -12,13 +12,10 @@ import { Employee } from '../employee';
   styleUrl: './employee-list.css',
 })
 export class EmployeeList {
-  private http = inject(HttpClient);
   employee_list$!: Observable<Employee[]>;
+  private employeeService = inject(EmployeeService);
 
   constructor() {
-    this.employee_list$ = this.http
-      .get<{ data: Employee[] }>('https://localhost:7289/api/Employee')
-      .pipe(map((response) => response.data));
-    console.log(this.employee_list$);
+    this.employee_list$ = this.employeeService.getAll();
   }
 }

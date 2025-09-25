@@ -1,4 +1,4 @@
-<div id="employees" class="tab-content active">
+<div id="employees">
   <div class="card">
     <div class="card-header">
       <div class="icon-wrapper">
@@ -24,6 +24,8 @@
     <div id="employees-list" class="card-content">
       @for (user of (employee_list$ | async); track user) {
       <app-employee-item [employee]="user" />
+      } @empty {
+      <h2>Nenhum funcionário encontrado!</h2>
       }
     </div>
   </div>
