@@ -8,16 +8,20 @@ import { Employee } from './employee';
   providedIn: 'root',
 })
 export class EmployeeService {
-  readonly http = inject(HttpClient);
+  private _http = inject(HttpClient);
   readonly url = `${API_BASE_URL}/Employee`;
 
-  getAll(): Observable<Employee[]> {
-    return this.http.get<{ data: Employee[] }>(this.url).pipe(
-      map((response) => response.data),
-      catchError((error) => {
-        console.log('error ao buscar funcionarios', error);
-        return throwError(() => error);
-      })
-    );
+  // getAll(): Observable<Employee[]> {
+  //   return this.http.get<{ data: Employee[] }>(this.url).pipe(
+  //     map((response) => response.data),
+  //     catchError((error) => {
+  //       console.log('error ao buscar funcionarios', error);
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
+
+  getAll() {
+    return this._http.get<{ data: Employee[] }>(this.url).pipe(map((res) => res.data));
   }
 }

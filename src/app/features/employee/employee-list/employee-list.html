@@ -22,11 +22,13 @@
       <h2>Colaboradores</h2>
     </div>
     <div id="employees-list" class="card-content">
-      @for (user of (employee_list$ | async); track user) {
+      @for (user of (employee_list$ | async); track user.id || user) {
       <app-employee-item [employee]="user" />
-      } @empty {
-      <h2>Nenhum funcionário encontrado!</h2>
-      }
+      } @empty { @if(!isloading) {
+      <p>Nenhum funcionário encontrado!</p>
+      }@else {
+      <div>Carregando...</div>
+      } }
     </div>
   </div>
 </div>

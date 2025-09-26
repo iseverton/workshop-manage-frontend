@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { EmployeeItem } from '../employee-item/employee-item';
-import { AsyncPipe } from '@angular/common';
-import { map, Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { Employee } from '../employee';
+import { AsyncPipe } from '@angular/common';
 import { EmployeeService } from '../employee.service';
 
 @Component({
@@ -13,9 +13,22 @@ import { EmployeeService } from '../employee.service';
 })
 export class EmployeeList {
   employee_list$!: Observable<Employee[]>;
-  private employeeService = inject(EmployeeService);
+  isloading = true;
+
+  private _employeeService = inject(EmployeeService);
 
   constructor() {
-    this.employee_list$ = this.employeeService.getAll();
+    this.employee_list$ = this._getAll();
+  }
+
+  private _getAll(): Observable<Employee[]> {
+    return this._employeeService.getAll().pipe(
+      tap(() => (this.isloading = false)),
+      catchError((err) => {
+        console.error(err);
+        this.isloading = false;
+        return of([]);
+      })
+    );
   }
 }
